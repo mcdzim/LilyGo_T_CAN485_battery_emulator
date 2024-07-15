@@ -25,7 +25,9 @@
 //#define SANTA_FE_PHEV_BATTERY
 //#define TESLA_MODEL_3_BATTERY
 //#define VOLVO_SPA_BATTERY
-//#define TEST_FAKE_BATTERY
+// #define TEST_FAKE_BATTERY
+// #define BALANCELL_P33
+#define BALANCELL_EVIE
 
 /* Select inverter communication protocol. See Wiki for which to use with your inverter: https://github.com/dalathegreat/BYD-Battery-Emulator-For-Gen24/wiki */
 //#define BYD_CAN          //Enable this line to emulate a "BYD Battery-Box Premium HVS" over CAN Bus
@@ -70,17 +72,17 @@
 /* Battery settings */
 
 // Predefined total energy capacity of the battery in Watt-hours
-#define BATTERY_WH_MAX 30000
+#define BATTERY_WH_MAX 84000
 // Increases battery life. If true will rescale SOC between the configured min/max-percentage
 #define BATTERY_USE_SCALED_SOC true
 // 8000 = 80.0% , Max percentage the battery will charge to (Inverter gets 100% when reached)
-#define BATTERY_MAXPERCENTAGE 8000
+#define BATTERY_MAXPERCENTAGE 10000
 // 2000 = 20.0% , Min percentage the battery will discharge to (Inverter gets 0% when reached)
-#define BATTERY_MINPERCENTAGE 2000
+#define BATTERY_MINPERCENTAGE 500
 // 300 = 30.0A , BYD CAN specific setting, Max charge in Amp (Some inverters needs to be limited)
-#define BATTERY_MAX_CHARGE_AMP 300
+#define BATTERY_MAX_CHARGE_AMP 200
 // 300 = 30.0A , BYD CAN specific setting, Max discharge in Amp (Some inverters needs to be limited)
-#define BATTERY_MAX_DISCHARGE_AMP 300
+#define BATTERY_MAX_DISCHARGE_AMP 4000
 
 extern volatile uint8_t AccessPointEnabled;
 extern const uint8_t wifi_channel;
