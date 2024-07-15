@@ -111,7 +111,7 @@ void update_values_battery() {
 
   datalayer.battery.info.total_capacity_Wh = 80000; // ah_number * voltage_dV/10 * battery_module_quantity / battery_modules_in_series; // todo fix it to take in battery size
 
-  datalayer.battery.status.remaining_capacity_Wh = datalayer.battery.info.total_capacity_Wh * datalayer.battery.status.real_soc / 100; // ah_number * voltage_dV/10 * battery_module_quantity / battery_modules_in_series * SOC/100 * SOH/100; // todo fix it to take in battery size
+  datalayer.battery.status.remaining_capacity_Wh = datalayer.battery.info.total_capacity_Wh * datalayer.battery.status.real_soc / 10000; // ah_number * voltage_dV/10 * battery_module_quantity / battery_modules_in_series * SOC/100 * SOH/100; // todo fix it to take in battery size
 
   datalayer.battery.status.soh_pptt = (SOH * 100);  //Increase decimals from 100% -> 100.00%
 
