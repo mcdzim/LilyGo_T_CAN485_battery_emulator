@@ -162,7 +162,7 @@ void update_values_battery() {
 void receive_can_battery(CAN_frame_t rx_frame) {
   datalayer.battery.status.CAN_battery_still_alive = CAN_STILL_ALIVE;
   switch (rx_frame.MsgID) {
-    case 0x3700b5c:
+    case 0x3700de0:
       //Pack1 Extrema
       pack1_celltemperature_max_dC  =  10*((rx_frame.data.u8[1] << 8) | rx_frame.data.u8[0]);
       pack1_celltemperature_min_dC  =  10*((rx_frame.data.u8[3] << 8) | rx_frame.data.u8[2]);
@@ -171,7 +171,7 @@ void receive_can_battery(CAN_frame_t rx_frame) {
       Serial.println("0x3700b5c message recieved Temp : " + String(pack1_celltemperature_max_dC)  +" - " + String(pack1_celltemperature_min_dC) );
       Serial.println("0x3700b5c message recieved Volt : " + String(pack1_cellvoltage_max_mV)  +" - " + String(pack1_cellvoltage_min_mV) );
     break;
-    case 0x3560b5c:
+    case 0x3560de0:
       //Pack1 Status
       pack1_packvoltage_mV          =  ((rx_frame.data.u8[1] << 8) | rx_frame.data.u8[0]);
       pack1_packcurrent_mA          =  100*((rx_frame.data.u8[3] << 8) | rx_frame.data.u8[2]);
