@@ -10,6 +10,10 @@
 #include "NISSAN-LEAF-CHARGER.h"
 #endif
 
+#ifdef TC_CHARGER
+#include "TC-CHARGER.h"
+#endif
+
 void map_can_frame_to_variable_charger(CAN_frame rx_frame);
 void transmit_can_charger();
 

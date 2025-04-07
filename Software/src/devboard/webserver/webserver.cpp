@@ -723,7 +723,7 @@ void init_webserver() {
   });
 #endif
 
-#if defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER
+#if defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER || defined TC_CHARGER
   // Route for editing ChargerTargetV
   server.on("/updateChargeSetpointV", HTTP_GET, [](AsyncWebServerRequest* request) {
     if (WEBSERVER_AUTH_REQUIRED && !request->authenticate(http_username, http_password))
@@ -810,7 +810,7 @@ void init_webserver() {
       request->send(400, "text/plain", "Bad Request");
     }
   });
-#endif  // defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER
+#endif  // defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER || defined TC_CHARGER
 
   // Send a GET request to <ESP_IP>/update
   server.on("/debug", HTTP_GET, [](AsyncWebServerRequest* request) {
@@ -989,7 +989,7 @@ String processor(const String& var) {
     content += "</h4>";
 #endif
 
-#if defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER
+#if defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER || defined TC_CHARGER
     content += "<h4 style='color: white;'>Charger protocol: ";
 #ifdef CHEVYVOLT_CHARGER
     content += "Chevy Volt Gen1 Charger";
@@ -997,8 +997,11 @@ String processor(const String& var) {
 #ifdef NISSANLEAF_CHARGER
     content += "Nissan LEAF 2013-2024 PDM charger";
 #endif  // NISSANLEAF_CHARGER
+#ifdef TC_CHARGER
+    content += "Elcon/TC charger";
+#endif  // TC_CHARGER
     content += "</h4>";
-#endif  // defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER
+#endif  // defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER || defined TC_CHARGER
 
     // Close the block
     content += "</div>";
@@ -1399,7 +1402,7 @@ String processor(const String& var) {
     content += "</div>";
 #endif  // DOUBLE_BATTERY
 
-#if defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER
+#if defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER || defined TC_CHARGER
     // Start a new block with orange background color
     content += "<div style='background-color: #FF6E00; padding: 10px; margin-bottom: 10px;border-radius: 50px'>";
 
@@ -1451,9 +1454,22 @@ String processor(const String& var) {
     content += "<h4 style='color: white;'>Charger HVDC Output I: " + String(HVcur, 2) + " A</h4>";
     content += "<h4 style='color: white;'>Charger AC Input V: " + String(ACvol, 2) + " VAC</h4>";
 #endif  // NISSANLEAF_CHARGER
+#ifdef TC_CHARGER
+    float chgPwrDC = static_cast<float>(datalayer.charger.charger_stat_HVcur * 100);
+    datalayer.charger.charger_stat_HVcur = chgPwrDC / (datalayer.battery.status.voltage_dV / 10);  // P/U=I
+    datalayer.charger.charger_stat_HVvol = static_cast<float>(datalayer.battery.status.voltage_dV / 10);
+    float ACvol = datalayer.charger.charger_stat_ACvol;
+    float HVvol = datalayer.charger.charger_stat_HVvol;
+    float HVcur = datalayer.charger.charger_stat_HVcur;
+
+    content += formatPowerValue("Charger Output Power", chgPwrDC, "", 1);
+    content += "<h4 style='color: white;'>Charger HVDC Output V: " + String(HVvol, 2) + " V</h4>";
+    content += "<h4 style='color: white;'>Charger HVDC Output I: " + String(HVcur, 2) + " A</h4>";
+    content += "<h4 style='color: white;'>Charger AC Input V: " + String(ACvol, 2) + " VAC</h4>";
+#endif  // TC_CHARGER
     // Close the block
     content += "</div>";
-#endif  // defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER
+#endif  // defined CHEVYVOLT_CHARGER || defined NISSANLEAF_CHARGER || defined TC_CHARGER
 
     if (emulator_pause_request_ON)
       content += "<button onclick='PauseBattery(false)'>Resume charge/discharge</button> ";

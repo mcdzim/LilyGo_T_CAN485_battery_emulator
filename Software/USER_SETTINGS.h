@@ -89,6 +89,7 @@
 /* Select charger used (Optional) */
 //#define CHEVYVOLT_CHARGER  //Enable this line to control a Chevrolet Volt charger connected to battery - for example, when generator charging or using an inverter without a charging function.
 //#define NISSANLEAF_CHARGER  //Enable this line to control a Nissan LEAF PDM connected to battery - for example, when generator charging
+//#define TC_CHARGER  //Enable this line to control an Elcon/TC charger to the battery - for example, when generator charging
 
 /* Automatic Precharge settings (Optional) If you have a battery that expects an external voltage applied before opening contactors (within the battery), configure this section */
 //#define PRECHARGE_CONTROL      //Enable this line to control a modified HIA4V1 (see wiki) by PWM on the PRECHARGE_PIN.
